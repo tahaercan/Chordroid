@@ -11,7 +11,9 @@ namespace Chordroid
         {
             InitializeComponent();
             //MainPage = new MainPage();
-            MainPage  = new NavigationPage(new MainPage());
+            NavigationPage np = new NavigationPage(new MainPage());
+            np.BarBackgroundColor = Color.Black; 
+            MainPage  = np;            
         }
 
         protected override void OnStart()

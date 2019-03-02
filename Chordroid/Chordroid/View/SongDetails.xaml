@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Chordroid.View.SongDetails">
+    <ContentPage.Content>
+        <StackLayout Padding="10,10,10,10">
+            <Grid VerticalOptions="CenterAndExpand">
+                <Grid.ColumnDefinitions >
+                    <ColumnDefinition Width="50"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Label Grid.Column="0" Grid.Row="0" Text="Name" VerticalTextAlignment="Center"></Label>
+                <Entry x:Name="EntName" Grid.Column="1" Grid.Row="0" TextChanged="EntName_TextChanged" FontSize="Small"></Entry>
+                <Label Grid.Column="0" Grid.Row="1" Text="Spotify" VerticalTextAlignment="Center"></Label>
+                <Entry x:Name="EntSpotifyLink"  Grid.Column="1" Grid.Row="1" TextChanged="EntSpotifyLink_TextChanged" FontSize="Small"></Entry>
+            </Grid>
+            <ActivityIndicator x:Name="ac" IsVisible="False" IsRunning="False" ></ActivityIndicator>
+            <Button x:Name="btnUpload" Text="Upload Song" VerticalOptions="End" BackgroundColor="CadetBlue" Clicked="BtnUpload_Clicked"></Button>
+            <Button x:Name="btnSpotify" Text="Open On spotify" VerticalOptions="End" BackgroundColor="Green" Clicked="BtnSpotify_Clicked"></Button>
+            <Button x:Name="btnDelete" Text="Delete Song" VerticalOptions="End" BackgroundColor="Red" Clicked="BtnDelete_Clicked"></Button>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

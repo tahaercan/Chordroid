@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Chordroid.AkorLyrics">
+    <ContentPage.Content>       
+        <StackLayout Padding="15,0,0,0">
+            <ScrollView>
+                <Label x:Name="LabelLyric"                      
+                   HorizontalOptions="FillAndExpand"                   
+                   FontSize="{Binding Source={x:Reference stepper},Path=Value}">
+                    <Label.FontFamily>
+                        <OnPlatform x:TypeArguments="x:String">
+                            <On Platform="Android" Value="RobotoMono-Regular.ttf#RobotoMono-Regular" />
+                        </OnPlatform>
+                    </Label.FontFamily>
+                </Label>
+            </ScrollView>            
+            <StackLayout Orientation="Horizontal" Padding="10,0,10,0" VerticalOptions="EndAndExpand">
+                <Label WidthRequest="100"
+                       HorizontalTextAlignment="Start" 
+                       VerticalTextAlignment="Center"
+                       Text="Swipe For Chords" 
+                       FontSize="Micro" 
+                       TextColor="Gray"></Label>
+                <Stepper x:Name="stepper" 
+                         Minimum="10" 
+                         Maximum="70" 
+                         Increment="2" 
+                         HorizontalOptions="CenterAndExpand" 
+                         ValueChanged="Stepper_ValueChanged"></Stepper>
+                <Label WidthRequest="100" 
+                       HorizontalTextAlignment="End" 
+                       VerticalTextAlignment="Center"
+                       Text="Swipe For Details" 
+                       FontSize="Micro" 
+                       TextColor="Gray"></Label>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

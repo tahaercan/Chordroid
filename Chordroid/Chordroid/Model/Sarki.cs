@@ -10,12 +10,15 @@ namespace Chordroid.Model
             AkorFontBuyuklugu = 20;
             SozFontBuyuklugu = 14;
             SozRtf = "";
+            SpotifyAdresi = "";
         }
 
         public string Ad { get; set; }
         public int AkorFontBuyuklugu { get; set; }
         public int SozFontBuyuklugu { get; set; }
         public string SozRtf { get; set; }
+        public string SpotifyAdresi { get; set; } = "";
+
         public ObservableCollection<Satir> Satirlar { get; set; }
 
     }

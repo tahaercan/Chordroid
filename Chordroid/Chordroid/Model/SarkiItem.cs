@@ -11,6 +11,8 @@ namespace Chordroid.Model
     {
 
         public string Ad { get; set; }
+        public bool Secili { get; set; } = false;
+        public string Link { get; set; } = "";
         public SarkiItem()
         {
 

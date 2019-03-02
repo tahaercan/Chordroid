@@ -15,12 +15,17 @@
                         <ViewCell>
                             <ViewCell.View>
                                 <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Padding="15,0,0,0">
-                                    <Label 
+                                    <Label x:Name="lblMetin"
                                         Text="{Binding Metin,Mode=TwoWay}"
                                         TextColor="{Binding Renk}"
                                         HorizontalOptions="FillAndExpand"
                                         HorizontalTextAlignment="Start"
-                                        FontSize="{Binding Source={x:Reference stepper},Path=Value}">
+                                        FontSize="{Binding Source={x:Reference stepper},Path=Value}" >
+                                        <Label.FontFamily>
+                                            <OnPlatform x:TypeArguments="x:String">
+                                                <On Platform="Android" Value="RobotoMono-Regular.ttf#RobotoMono-Regular" />                                                
+                                            </OnPlatform>
+                                        </Label.FontFamily>
                                     </Label>                                    
                                 </StackLayout>
                             </ViewCell.View>
@@ -28,13 +33,22 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <Stepper 
-                x:Name="stepper" 
-                Minimum="10" 
-                Maximum="50" 
-                Increment="2" 
-                HorizontalOptions="CenterAndExpand"
-                ValueChanged="Stepper_ValueChanged"></Stepper>            
+            <StackLayout Orientation="Horizontal" Padding="10,0,10,0">
+                <Label WidthRequest="100"></Label>
+                <Stepper 
+                    x:Name="stepper" 
+                    Minimum="10" 
+                    Maximum="70" 
+                    Increment="2" 
+                    HorizontalOptions="CenterAndExpand"
+                    ValueChanged="Stepper_ValueChanged"></Stepper>
+                <Label WidthRequest="100" 
+                       HorizontalTextAlignment="End" 
+                       VerticalTextAlignment="Center"
+                       Text="Swipe For Lyrics" 
+                       FontSize="Micro" 
+                       TextColor="Gray"></Label>
+            </StackLayout>                        
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

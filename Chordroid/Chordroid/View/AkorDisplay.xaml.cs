@@ -1,25 +1,29 @@
 ﻿using Chordroid.Model;
+using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace Chordroid
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
+    [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class AkorDisplay : ContentPage
 	{
         Sarki SeciliSarki = null;
+        private bool ekranaAliniyor = true;
 
         public AkorDisplay (Sarki s)
 		{
-			InitializeComponent ();
+
+            InitializeComponent ();
 
             SeciliSarki = s;
+
+            ToolbarItem tSongName = new ToolbarItem();
+            tSongName.Text = s.Ad;
+            ToolbarItems.Add(tSongName);
 
             ToolbarItem tLow = new ToolbarItem();
             tLow.Text = "LOW";
@@ -33,16 +37,29 @@ namespace Chordroid
             tHigh.Clicked += THigh_Clicked;
             ToolbarItems.Add(tHigh);
 
-            ToolbarItem tEdit = new ToolbarItem();
-            tEdit.Text = "EDIT";
-            tEdit.Icon = "pencil.png";
-            tEdit.Clicked += TEdit_Clicked;
-            ToolbarItems.Add(tEdit);
-
             stepper.Value = SeciliSarki.AkorFontBuyuklugu;
             
-            BindingContext = SeciliSarki.Satirlar;
-                        
+            BindingContext = SeciliSarki.Satirlar.OrderBy(x => x.Sira);
+
+            ekranaAliniyor = false;
+        }
+
+        protected override void OnAppearing()
+        {
+            string path = Helper.SarkiAdindanPathBul(SeciliSarki.Ad);
+            if (File.Exists(path))
+            {
+                using (StreamReader file = File.OpenText(path))
+                {
+                    JsonSerializer serializer = new JsonSerializer();
+                    SeciliSarki = (Sarki)serializer.Deserialize(file, typeof(Sarki));
+                    if (SeciliSarki != null)
+                    {
+                        ListviewSatirlar.ItemsSource = null;
+                        ListviewSatirlar.ItemsSource = SeciliSarki.Satirlar.OrderBy(x => x.Sira);
+                    }
+                }
+            }
         }
 
         private void THigh_Clicked(object sender, EventArgs e)
@@ -73,6 +90,7 @@ namespace Chordroid
 
         private void Stepper_ValueChanged(object sender, ValueChangedEventArgs e)
         {
+            if (ekranaAliniyor) return;
             SeciliSarki.AkorFontBuyuklugu = (int)e.NewValue;
             Helper.Save(SeciliSarki);
         }

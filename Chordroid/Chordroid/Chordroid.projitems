@@ -10,32 +10,41 @@
   </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)App.xaml" />
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)MainPage.xaml" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)View\MainPage.xaml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)AkorDisplay.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)View\AkorDisplay.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)AkorEdit.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)View\AkorEdit.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)AkorLyrics.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)View\AkorLyrics.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)DisplayCarousel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Helper.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)MainPage.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)View\DisplayCarousel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\Helper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)View\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Model\Sarki.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\SarkiItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Satir.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)View\ServerSongList.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)View\SongDetails.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)Icon\add.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Icon\arrow_down_green.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Icon\arrow_up_green.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Icon\cloud_computing_download.png" />
     <Content Include="$(MSBuildThisFileDirectory)Icon\delete.png" />
     <Content Include="$(MSBuildThisFileDirectory)Icon\document_music.png" />
     <Content Include="$(MSBuildThisFileDirectory)Icon\music_blue.png" />
@@ -45,17 +54,27 @@
     <Content Include="$(MSBuildThisFileDirectory)Icon\zoom_out.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)AkorEdit.xaml">
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)View\AkorEdit.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)AkorDisplay.xaml">
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)View\AkorDisplay.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)AkorLyrics.xaml">
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)View\AkorLyrics.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)View\ServerSongList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)View\SongDetails.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
   </ItemGroup>

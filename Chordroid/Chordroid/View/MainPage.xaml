@@ -5,7 +5,7 @@
              x:Class="Chordroid.MainPage">
 
     <StackLayout>
-        <Grid>
+        <Grid x:Name="grid">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
@@ -14,7 +14,14 @@
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
 
-            <SearchBar Placeholder="Search Song" BackgroundColor="White" Grid.Column="0" Grid.Row="0" TextChanged="SearchBar_TextChanged" />
+            <SearchBar 
+                Placeholder="Search Song" 
+                BackgroundColor="White" 
+                Grid.Column="0" 
+                Grid.Row="0" 
+                TextChanged="SearchBar_TextChanged"
+                PlaceholderColor="Gray"/>
+            <ActivityIndicator x:Name="ac" IsVisible="False" IsRunning="False" ></ActivityIndicator>
 
             <ListView x:Name="ListviewSarki" ItemsSource="{Binding .,Mode=TwoWay}" BackgroundColor="White" Grid.Column="0" Grid.Row="1">
                 <ListView.ItemTemplate>
@@ -22,7 +29,12 @@
                         <ViewCell>
                             <ViewCell.View>
                                 <StackLayout HorizontalOptions="StartAndExpand" Orientation="Horizontal" Padding="15,0,0,0">
-                                    <Label Text="{Binding Ad,Mode=TwoWay}" HorizontalTextAlignment="Start" FontSize="Medium" />
+                                    <Label 
+                                        Text="{Binding Ad,Mode=TwoWay}" 
+                                        HorizontalTextAlignment="Start" 
+                                        FontSize="Medium" 
+                                        VerticalTextAlignment="Center"
+                                        TextColor="Black"/>
                                 </StackLayout>
                             </ViewCell.View>
                         </ViewCell>

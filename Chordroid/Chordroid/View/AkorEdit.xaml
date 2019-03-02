@@ -12,11 +12,16 @@
                                 <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Padding="15,0,0,0">
                                     <Entry 
                                         Text="{Binding Metin,Mode=TwoWay}"
+                                        TextColor="{Binding Renk}"
                                         HorizontalOptions="FillAndExpand"
                                         HorizontalTextAlignment="Start"
                                         FontSize="Medium" 
-                                        TextChanged="Entry_TextChanged" 
-                                        FontFamily="Consolas">
+                                        TextChanged="Entry_TextChanged" >
+                                        <Entry.FontFamily>
+                                            <OnPlatform x:TypeArguments="x:String">
+                                                <On Platform="Android" Value="RobotoMono-Regular.ttf#RobotoMono-Regular" />
+                                            </OnPlatform>
+                                        </Entry.FontFamily>
                                     </Entry>
                                     <Switch 
                                         IsToggled="{Binding AkorSatiri}" 
@@ -27,13 +32,8 @@
                                            WidthRequest="45"
                                            FontSize="Medium"
                                            VerticalOptions="Center"
-                                           HorizontalOptions="Center">
-                                    </Label>
-                                    <Button WidthRequest="45" 
-                                            BackgroundColor="Red"
-                                            Text="X"
-                                            Clicked="Button_Clicked">
-                                    </Button>
+                                           HorizontalOptions="Center">                                        
+                                    </Label>                                   
                                 </StackLayout>
                             </ViewCell.View>
                         </ViewCell>
