@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Chordroid.AkorEdit">
+    <ContentPage.Content>
+        <StackLayout>
+            <ListView x:Name="ListviewSatirlar" ItemsSource="{Binding .,Mode=TwoWay}" BackgroundColor="White" HasUnevenRows="True">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Padding="15,0,0,0">
+                                    <Entry 
+                                        Text="{Binding Metin,Mode=TwoWay}"
+                                        HorizontalOptions="FillAndExpand"
+                                        HorizontalTextAlignment="Start"
+                                        FontSize="Medium" 
+                                        TextChanged="Entry_TextChanged" 
+                                        FontFamily="Consolas">
+                                    </Entry>
+                                    <Switch 
+                                        IsToggled="{Binding AkorSatiri}" 
+                                        Toggled="Switch_Toggled" 
+                                        WidthRequest="45">
+                                    </Switch>
+                                    <Label Text="{Binding Sira}"
+                                           WidthRequest="45"
+                                           FontSize="Medium"
+                                           VerticalOptions="Center"
+                                           HorizontalOptions="Center">
+                                    </Label>
+                                    <Button WidthRequest="45" 
+                                            BackgroundColor="Red"
+                                            Text="X"
+                                            Clicked="Button_Clicked">
+                                    </Button>
+                                </StackLayout>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

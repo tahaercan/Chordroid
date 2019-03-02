@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Chordroid"
+             x:Class="Chordroid.AkorDisplay">
+    <ContentPage.Content>
+        <StackLayout>
+            <ListView 
+                x:Name="ListviewSatirlar" 
+                ItemsSource="{Binding .,Mode=TwoWay}" 
+                BackgroundColor="White" 
+                HasUnevenRows="True">
+                <ListView.ItemTemplate>
+                    <DataTemplate>                        
+                        <ViewCell>
+                            <ViewCell.View>
+                                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Padding="15,0,0,0">
+                                    <Label 
+                                        Text="{Binding Metin,Mode=TwoWay}"
+                                        TextColor="{Binding Renk}"
+                                        HorizontalOptions="FillAndExpand"
+                                        HorizontalTextAlignment="Start"
+                                        FontSize="{Binding Source={x:Reference stepper},Path=Value}">
+                                    </Label>                                    
+                                </StackLayout>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Stepper 
+                x:Name="stepper" 
+                Minimum="10" 
+                Maximum="50" 
+                Increment="2" 
+                HorizontalOptions="CenterAndExpand"
+                ValueChanged="Stepper_ValueChanged"></Stepper>            
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
