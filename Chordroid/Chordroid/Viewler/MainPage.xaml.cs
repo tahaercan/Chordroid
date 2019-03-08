@@ -3,6 +3,7 @@ using Chordroid.Model;
 using Chordroid.View;
 using FluentFTP;
 using Newtonsoft.Json;
+using Plugin.Clipboard;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -17,6 +18,7 @@ namespace Chordroid
     {
         private ObservableCollection<SarkiItem> lSarkilar = new ObservableCollection<SarkiItem>();
         private Sarki SeciliSarki;
+        private string SongListText;
         public MainPage()
         {
             try
@@ -49,6 +51,12 @@ namespace Chordroid
                 tImportSong.Order = ToolbarItemOrder.Secondary;
                 ToolbarItems.Add(tImportSong);
 
+                ToolbarItem tSongList = new ToolbarItem();
+                tSongList.Text = "COPY SONG LIST";
+                tSongList.Clicked += TSongList_Clicked; ;
+                tSongList.Order = ToolbarItemOrder.Secondary;
+                ToolbarItems.Add(tSongList);
+
                 ListviewSarki.ItemSelected += ListviewSarki_ItemSelected;
             }
             catch (Exception ex)
@@ -56,7 +64,6 @@ namespace Chordroid
                 DisplayAlert("Error", ex.Message, "OK");                
             }            
         }
-
 
         protected override void OnAppearing()
         {
@@ -69,6 +76,7 @@ namespace Chordroid
             ac.IsVisible = true;
 
             lSarkilar.Clear();
+            int i = 0;
             foreach (string song in System.IO.Directory.GetFiles(Helper.KlasorAdi))
             {
                 if (System.IO.Path.GetExtension(song) == ".json")
@@ -76,6 +84,8 @@ namespace Chordroid
                     SarkiItem s = new SarkiItem();
                     s.Ad = System.IO.Path.GetFileNameWithoutExtension(song);
                     lSarkilar.Add(s);
+                    i++;
+                    SongListText += i.ToString() + ". " + s.Ad + System.Environment.NewLine;
                 }
             }
 
@@ -170,8 +180,13 @@ namespace Chordroid
             }
         }
 
-        #endregion
+        private void TSongList_Clicked(object sender, EventArgs e)
+        {
+            CrossClipboard.Current.SetText(SongListText);
+            DisplayAlert("Song List", "Song list is copied to clipboard.", "OK");
+        }
 
+        #endregion
 
         private async void ListviewSarki_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {

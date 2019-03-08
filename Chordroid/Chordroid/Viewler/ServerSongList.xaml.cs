@@ -108,11 +108,12 @@ namespace Chordroid.View
 
                 foreach (SarkiItem s in lSarkilar.Where(x => x.Secili == true))
                 {
-                    await client.DownloadFileAsync(Helper.SarkiAdindanPathBul(s.Ad), s.Link, true,FtpVerify.Retry);
+                    await client.DownloadFileAsync(Helper.SarkiAdindanPathBul(s.Ad), s.Link, FtpLocalExists.Overwrite ,FtpVerify.Retry);
                     lblIndirilenSarki.Text = "Downloading " + s.Ad;
                 }
 
                 await DisplayAlert("Download Done", "Selected songs have been downloaded successfully.", "OK");
+                await Navigation.PopAsync();
             }
             catch (Exception ex)
             {

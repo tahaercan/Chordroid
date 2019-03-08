@@ -1,17 +1,14 @@
-﻿using System;
-
+﻿
 using Android.App;
 using Android.Content.PM;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 using Android.OS;
-using Xamarin.Forms;
-using Android.Graphics;
+using Android.Support.V7.App;
+using Color = Android.Graphics.Color;
 
 namespace Chordroid.Droid
 {
-    [Activity(Label = "Chordroid", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = false, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    [Activity(Theme = "@style/MainTheme", MainLauncher = false, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    //[Activity(Label = "Chordroid", Icon = "@mipmap/icon", Theme = "@style/Theme.AppCompat.Light.NoActionBar", MainLauncher = true)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)
@@ -20,6 +17,7 @@ namespace Chordroid.Droid
             ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(savedInstanceState);
+
             Acr.UserDialogs.UserDialogs.Init(this);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
                        

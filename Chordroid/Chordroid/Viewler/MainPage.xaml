@@ -5,7 +5,7 @@
              x:Class="Chordroid.MainPage">
 
     <StackLayout>
-        <Grid x:Name="grid">
+        <Grid >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>

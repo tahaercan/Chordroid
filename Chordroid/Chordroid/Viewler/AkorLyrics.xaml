@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Chordroid.AkorLyrics">
     <ContentPage.Content>       
-        <StackLayout Padding="15,0,0,0">
+        <StackLayout Padding="15,15,0,0">
             <ScrollView>
                 <Label x:Name="LabelLyric"                      
                    HorizontalOptions="FillAndExpand"                   
