@@ -68,7 +68,7 @@ namespace Chordroid.View
                 client.Port = 21;
                 await client.ConnectAsync();
 
-                foreach (FtpListItem item in client.GetListing("/htdocs"))
+                foreach (FtpListItem item in client.GetListing("/songs"))
                 {
                     if (item.Name.ToLower().EndsWith(".json"))
                     {
@@ -78,7 +78,6 @@ namespace Chordroid.View
                         lSarkilar.Add(s);
                     }
                 }
-
                 BindingContext = lSarkilar.OrderBy(x => x.Ad);
                 ToolbarItems[0].Text = lSarkilar.Count.ToString() + " SONGS CAN BE DOWNLOADED";
             }

@@ -22,6 +22,21 @@
             <Button x:Name="btnUpload" Text="Upload Song" VerticalOptions="End" BackgroundColor="CadetBlue" Clicked="BtnUpload_Clicked"></Button>
             <Button x:Name="btnSpotify" Text="Open On spotify" VerticalOptions="End" BackgroundColor="Green" Clicked="BtnSpotify_Clicked"></Button>
             <Button x:Name="btnDelete" Text="Delete Song" VerticalOptions="End" BackgroundColor="Red" Clicked="BtnDelete_Clicked"></Button>
+            <StackLayout Orientation="Horizontal" Padding="10,0,10,0" VerticalOptions="EndAndExpand" HeightRequest="30">
+                <Label HorizontalOptions="StartAndExpand"  
+                       HorizontalTextAlignment="Start" 
+                       VerticalTextAlignment="Center"
+                       Text="Swipe For Lyrics" 
+                       FontSize="Micro" 
+                       TextColor="Gray"></Label>                
+                <Label HorizontalOptions="End"
+                       WidthRequest="100" 
+                       HorizontalTextAlignment="End" 
+                       VerticalTextAlignment="Center"
+                       Text="Swipe to Edit" 
+                       FontSize="Micro" 
+                       TextColor="Gray"></Label>
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

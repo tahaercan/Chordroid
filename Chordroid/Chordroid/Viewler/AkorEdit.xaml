@@ -40,6 +40,14 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+            <StackLayout Orientation="Horizontal" Padding="10,0,10,0" VerticalOptions="EndAndExpand" HeightRequest="30">
+                <Label HorizontalOptions="StartAndExpand"  
+                       HorizontalTextAlignment="Start" 
+                       VerticalTextAlignment="Center"
+                       Text="Swipe For Details" 
+                       FontSize="Micro" 
+                       TextColor="Gray"></Label>                
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

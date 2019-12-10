@@ -1,6 +1,7 @@
 ﻿using Acr.UserDialogs;
 using Chordroid.Model;
 using Chordroid.View;
+using Chordroid.Viewler;
 using FluentFTP;
 using Newtonsoft.Json;
 using Plugin.Clipboard;
@@ -34,6 +35,25 @@ namespace Chordroid
                     //Directory.Delete(Helper.KlasorAdi, true);
                 }
 
+                if (System.IO.File.Exists(Helper.FtpSettingsPath))
+                {
+                    string temp = System.IO.File.ReadAllText(Helper.FtpSettingsPath);
+                    if (temp != "")
+                    {
+                        string[] ayarlar = temp.Split(Environment.NewLine);
+                        Helper.FtpUrl = ayarlar[0];
+                        Helper.FtpPort = int.Parse(ayarlar[1]);
+                        Helper.FtpUserName = ayarlar[2];
+                        Helper.FtpPassword = ayarlar[3];
+                    }
+                }
+                else
+                { 
+                    System.IO.FileStream fs = File.Create(Helper.FtpSettingsPath);
+                    fs.Close();
+                    fs.Dispose();
+                }
+
                 ToolbarItem tSongCount = new ToolbarItem();
                 tSongCount.Text = "";
                 ToolbarItems.Add(tSongCount);
@@ -53,9 +73,15 @@ namespace Chordroid
 
                 ToolbarItem tSongList = new ToolbarItem();
                 tSongList.Text = "COPY SONG LIST";
-                tSongList.Clicked += TSongList_Clicked; ;
+                tSongList.Clicked += TSongList_Clicked; 
                 tSongList.Order = ToolbarItemOrder.Secondary;
                 ToolbarItems.Add(tSongList);
+
+                ToolbarItem tFtpSettings = new ToolbarItem();
+                tFtpSettings.Text = "FTP SETTINGS";
+                tFtpSettings.Clicked += TFtpSettings_Clicked;
+                tFtpSettings.Order = ToolbarItemOrder.Secondary;
+                ToolbarItems.Add(tFtpSettings);
 
                 ListviewSarki.ItemSelected += ListviewSarki_ItemSelected;
             }
@@ -76,7 +102,7 @@ namespace Chordroid
             ac.IsVisible = true;
 
             lSarkilar.Clear();
-            int i = 0;
+            
             foreach (string song in System.IO.Directory.GetFiles(Helper.KlasorAdi))
             {
                 if (System.IO.Path.GetExtension(song) == ".json")
@@ -84,9 +110,15 @@ namespace Chordroid
                     SarkiItem s = new SarkiItem();
                     s.Ad = System.IO.Path.GetFileNameWithoutExtension(song);
                     lSarkilar.Add(s);
-                    i++;
-                    SongListText += i.ToString() + ". " + s.Ad + System.Environment.NewLine;
                 }
+            }
+
+            SongListText = "";
+            int i = 0;
+            foreach (SarkiItem s in lSarkilar.OrderBy(x=>x.Ad))
+            {
+                i++;
+                SongListText += i.ToString() + ". " + s.Ad + System.Environment.NewLine;
             }
 
             BindingContext = lSarkilar.OrderBy(x=> x.Ad);
@@ -184,6 +216,18 @@ namespace Chordroid
         {
             CrossClipboard.Current.SetText(SongListText);
             DisplayAlert("Song List", "Song list is copied to clipboard.", "OK");
+        }
+
+        private async void TFtpSettings_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                await Navigation.PushAsync(new FtpSettings());
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error", ex.Message, "OK", "Cancel");
+            }
         }
 
         #endregion

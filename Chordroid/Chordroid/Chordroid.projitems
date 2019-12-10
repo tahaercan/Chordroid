@@ -27,6 +27,10 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Viewler\DisplayCarousel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\Helper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Viewler\FtpSettings.xaml.cs">
+      <DependentUpon>FtpSettings.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Viewler\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -75,6 +79,11 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Viewler\SongDetails.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Viewler\FtpSettings.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
   </ItemGroup>

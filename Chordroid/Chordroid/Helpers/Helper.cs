@@ -9,10 +9,11 @@ namespace Chordroid
     public static class Helper
     {
         public static string KlasorAdi = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "/Songs";
-        public static string FtpUrl = "ftpupload.net";
-        public static int FtpPort = 21;
-        public static string FtpUserName = "unaux_23475095";
-        public static string FtpPassword = "la5uj4jce";
+        public static string FtpSettingsPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "/FtpSettings.txt";
+        public static string FtpUrl = "";
+        public static int FtpPort = 0;
+        public static string FtpUserName = "";
+        public static string FtpPassword = "";
 
         public static void Save(Sarki sar, string sarkiadi="")
         {
