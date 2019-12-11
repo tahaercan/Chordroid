@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
+using System.Linq;
 using System.Text;
-using Xamarin.Forms;
+using System.Threading.Tasks;
 
-namespace Chordroid.Model
+namespace Poco.Model
 {
-    public class SarkiItem 
+    public class SarkiItem
     {
-
+        public int Id { get; set; }
         public string Ad { get; set; }
         public bool Secili { get; set; } = false;
         public string Link { get; set; } = "";
@@ -17,6 +16,5 @@ namespace Chordroid.Model
         {
 
         }
-
     }
 }

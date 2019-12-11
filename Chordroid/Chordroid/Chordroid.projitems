@@ -34,9 +34,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Viewler\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Model\Sarki.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\SarkiItem.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\Satir.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Viewler\ServerSongList.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

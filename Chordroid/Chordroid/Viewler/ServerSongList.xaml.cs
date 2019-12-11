@@ -1,8 +1,9 @@
-﻿using Chordroid.Model;
+﻿using Poco.Model;
 using FluentFTP;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -63,21 +64,33 @@ namespace Chordroid.View
 
                 lSarkilar.Clear();
 
-                FtpClient client = new FtpClient(Helper.FtpUrl);
-                client.Credentials = new NetworkCredential(Helper.FtpUserName, Helper.FtpPassword );
-                client.Port = 21;
-                await client.ConnectAsync();
-
-                foreach (FtpListItem item in client.GetListing("/songs"))
+                DataSet ds = await Helper.DataSetOku("select Id,Ad from Genel..Sarki with (nolock)", "SarkiListesi");
+                foreach (DataRow r in ds.Tables["SarkiListesi"].Rows)
                 {
-                    if (item.Name.ToLower().EndsWith(".json"))
-                    {
-                        SarkiItem s = new SarkiItem();
-                        s.Ad = item.Name.Substring(0, item.Name.LastIndexOf("."));
-                        s.Link = item.FullName;
-                        lSarkilar.Add(s);
-                    }
+                    SarkiItem s = new SarkiItem();
+                    s.Id = (int)r["Id"];
+                    s.Ad = r["Ad"].ToString();
+                    s.Link = "";
+                    lSarkilar.Add(s);
                 }
+
+
+                //FtpClient client = new FtpClient(Helper.FtpUrl);
+                //client.Credentials = new NetworkCredential(Helper.FtpUserName, Helper.FtpPassword );
+                //client.Port = 21;
+                //await client.ConnectAsync();
+
+                //foreach (FtpListItem item in client.GetListing("/songs"))
+                //{
+                //    if (item.Name.ToLower().EndsWith(".json"))
+                //    {
+                //        SarkiItem s = new SarkiItem();
+                //        s.Ad = item.Name.Substring(0, item.Name.LastIndexOf("."));
+                //        s.Link = item.FullName;
+                //        lSarkilar.Add(s);
+                //    }
+                //}
+
                 BindingContext = lSarkilar.OrderBy(x => x.Ad);
                 ToolbarItems[0].Text = lSarkilar.Count.ToString() + " SONGS CAN BE DOWNLOADED";
             }

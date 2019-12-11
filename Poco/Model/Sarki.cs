@@ -1,6 +1,11 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Chordroid.Model
+namespace Poco.Model
 {
     public class Sarki
     {
@@ -13,6 +18,7 @@ namespace Chordroid.Model
             SpotifyAdresi = "";
         }
 
+        public int Id { get; set; }
         public string Ad { get; set; }
         public int AkorFontBuyuklugu { get; set; }
         public int SozFontBuyuklugu { get; set; }
@@ -20,6 +26,5 @@ namespace Chordroid.Model
         public string SpotifyAdresi { get; set; } = "";
 
         public ObservableCollection<Satir> Satirlar { get; set; }
-
     }
 }

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
-namespace Chordroid.Model
+namespace Poco.Model
 {
     public class Satir
     {
@@ -11,6 +13,5 @@ namespace Chordroid.Model
         public int Sira { get; set; } = 0;
         public bool AkorSatiri { get; set; } = false;
         public Color Renk { get; set; } = Color.Black;
-
     }
 }
