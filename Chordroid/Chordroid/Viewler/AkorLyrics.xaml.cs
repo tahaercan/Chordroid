@@ -1,5 +1,4 @@
-﻿using Chordroid.Model;
-
+﻿using Poco.Model;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 

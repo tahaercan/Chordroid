@@ -1,8 +1,5 @@
-﻿using Chordroid.Model;
-using Chordroid.View;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Chordroid.View;
+using Poco.Model;
 using Xamarin.Forms;
 
 namespace Chordroid

@@ -1,5 +1,4 @@
 ﻿using Poco.Model;
-using FluentFTP;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,6 +10,8 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using System.Net.Http;
+using Newtonsoft.Json;
 
 namespace Chordroid.View
 {
@@ -64,32 +65,18 @@ namespace Chordroid.View
 
                 lSarkilar.Clear();
 
-                DataSet ds = await Helper.DataSetOku("select Id,Ad from Genel..Sarki with (nolock)", "SarkiListesi");
-                foreach (DataRow r in ds.Tables["SarkiListesi"].Rows)
+                var httpClient = new HttpClient();
+                var response = await httpClient.GetStringAsync("http://10.0.2.2:5000/api/Sarki/Get");
+                var sarkiListesi = JsonConvert.DeserializeObject<List<Sarki>>(response);
+                
+                foreach (Sarki sar in sarkiListesi)
                 {
                     SarkiItem s = new SarkiItem();
-                    s.Id = (int)r["Id"];
-                    s.Ad = r["Ad"].ToString();
+                    s.Id = sar.Id;
+                    s.Ad = sar.Ad;
                     s.Link = "";
                     lSarkilar.Add(s);
                 }
-
-
-                //FtpClient client = new FtpClient(Helper.FtpUrl);
-                //client.Credentials = new NetworkCredential(Helper.FtpUserName, Helper.FtpPassword );
-                //client.Port = 21;
-                //await client.ConnectAsync();
-
-                //foreach (FtpListItem item in client.GetListing("/songs"))
-                //{
-                //    if (item.Name.ToLower().EndsWith(".json"))
-                //    {
-                //        SarkiItem s = new SarkiItem();
-                //        s.Ad = item.Name.Substring(0, item.Name.LastIndexOf("."));
-                //        s.Link = item.FullName;
-                //        lSarkilar.Add(s);
-                //    }
-                //}
 
                 BindingContext = lSarkilar.OrderBy(x => x.Ad);
                 ToolbarItems[0].Text = lSarkilar.Count.ToString() + " SONGS CAN BE DOWNLOADED";
@@ -109,23 +96,26 @@ namespace Chordroid.View
         {
             try
             {
-                ac.IsVisible = true;
-                ac.IsRunning = true;
-                lblIndirilenSarki.IsVisible = true;
-
-                FtpClient client = new FtpClient(Helper.FtpUrl);
-                client.Credentials = new NetworkCredential(Helper.FtpUserName, Helper.FtpPassword);
-                client.Port = Helper.FtpPort;
-                await client.ConnectAsync();
-
-                foreach (SarkiItem s in lSarkilar.Where(x => x.Secili == true))
+                if(lSarkilar.Where(x => x.Secili == true).Count() > 0 )
                 {
-                    await client.DownloadFileAsync(Helper.SarkiAdindanPathBul(s.Ad), s.Link, FtpLocalExists.Overwrite ,FtpVerify.Retry);
-                    lblIndirilenSarki.Text = "Downloading " + s.Ad;
-                }
+                    ac.IsVisible = true;
+                    ac.IsRunning = true;
+                    lblIndirilenSarki.IsVisible = true;
+                    lblIndirilenSarki.Text = "Downloading Songs...";
+                    string sarkiIdleri = "";
+                    foreach (SarkiItem s in lSarkilar.Where(x => x.Secili == true))
+                    {
+                        sarkiIdleri += s.Id.ToString() + ",";
+                    }
+                    sarkiIdleri = sarkiIdleri.TrimEnd(','); 
 
-                await DisplayAlert("Download Done", "Selected songs have been downloaded successfully.", "OK");
-                await Navigation.PopAsync();
+                    var httpClient = new HttpClient();
+                    var response = await httpClient.GetStringAsync("http://10.0.2.2:5000/api/Sarki/DownloadSongs/" + sarkiIdleri);
+                    var sarkilar = JsonConvert.DeserializeObject<List<Sarki>>(response);
+
+                    await DisplayAlert("Download Done", "Selected songs have been downloaded successfully.", "OK");
+                    await Navigation.PopAsync();
+                }                
             }
             catch (Exception ex)
             {

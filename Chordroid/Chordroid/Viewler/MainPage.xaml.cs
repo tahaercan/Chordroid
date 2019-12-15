@@ -1,8 +1,7 @@
 ﻿using Acr.UserDialogs;
-using Chordroid.Model;
+using Poco.Model;
 using Chordroid.View;
 using Chordroid.Viewler;
-using FluentFTP;
 using Newtonsoft.Json;
 using Plugin.Clipboard;
 using System;
@@ -35,24 +34,24 @@ namespace Chordroid
                     //Directory.Delete(Helper.KlasorAdi, true);
                 }
 
-                if (System.IO.File.Exists(Helper.FtpSettingsPath))
-                {
-                    string temp = System.IO.File.ReadAllText(Helper.FtpSettingsPath);
-                    if (temp != "")
-                    {
-                        string[] ayarlar = temp.Split(Environment.NewLine);
-                        Helper.FtpUrl = ayarlar[0];
-                        Helper.FtpPort = int.Parse(ayarlar[1]);
-                        Helper.FtpUserName = ayarlar[2];
-                        Helper.FtpPassword = ayarlar[3];
-                    }
-                }
-                else
-                { 
-                    System.IO.FileStream fs = File.Create(Helper.FtpSettingsPath);
-                    fs.Close();
-                    fs.Dispose();
-                }
+                //if (System.IO.File.Exists(Helper.FtpSettingsPath))
+                //{
+                //    string temp = System.IO.File.ReadAllText(Helper.FtpSettingsPath);
+                //    if (temp != "")
+                //    {
+                //        string[] ayarlar = temp.Split(Environment.NewLine);
+                //        Helper.FtpUrl = ayarlar[0];
+                //        Helper.FtpPort = int.Parse(ayarlar[1]);
+                //        Helper.FtpUserName = ayarlar[2];
+                //        Helper.FtpPassword = ayarlar[3];
+                //    }
+                //}
+                //else
+                //{ 
+                //    System.IO.FileStream fs = File.Create(Helper.FtpSettingsPath);
+                //    fs.Close();
+                //    fs.Dispose();
+                //}
 
                 ToolbarItem tSongCount = new ToolbarItem();
                 tSongCount.Text = "";

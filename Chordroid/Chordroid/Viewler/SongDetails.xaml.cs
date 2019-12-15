@@ -1,6 +1,5 @@
 ﻿using Acr.UserDialogs;
-using Chordroid.Model;
-using FluentFTP;
+using Poco.Model;
 using System;
 using System.IO;
 using System.Net;
@@ -55,17 +54,17 @@ namespace Chordroid.View
                 ac.IsRunning = true;
                 ac.IsVisible = true;
 
-                FtpClient client = new FtpClient(Helper.FtpUrl);
-                client.Credentials = new NetworkCredential(Helper.FtpUserName, Helper.FtpPassword);
-                client.Port = Helper.FtpPort;
-                await client.ConnectAsync();
+                //FtpClient client = new FtpClient(Helper.FtpUrl);
+                //client.Credentials = new NetworkCredential(Helper.FtpUserName, Helper.FtpPassword);
+                //client.Port = Helper.FtpPort;
+                //await client.ConnectAsync();
 
-                bool basarili = await client.UploadFileAsync(Helper.SarkiAdindanPathBul(SeciliSarki.Ad), "/songs/" + SeciliSarki.Ad + ".json", FtpExists.Overwrite, verifyOptions:FtpVerify.Retry);
+                //bool basarili = await client.UploadFileAsync(Helper.SarkiAdindanPathBul(SeciliSarki.Ad), "/songs/" + SeciliSarki.Ad + ".json", FtpExists.Overwrite, verifyOptions:FtpVerify.Retry);
 
-                if (basarili)
-                {
-                    await DisplayAlert("Upload Done", "'" + SeciliSarki.Ad + "' uploaded successfully.", "OK");
-                }
+                //if (basarili)
+                //{
+                //    await DisplayAlert("Upload Done", "'" + SeciliSarki.Ad + "' uploaded successfully.", "OK");
+                //}
 
             }
             catch (Exception ex)
