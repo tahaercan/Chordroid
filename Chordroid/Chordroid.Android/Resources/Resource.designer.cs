@@ -63,6 +63,7 @@ namespace Chordroid.Droid
 			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahText = global::Chordroid.Droid.Resource.Styleable.ProgressWheel_ahText;
 			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahTextColor = global::Chordroid.Droid.Resource.Styleable.ProgressWheel_ahTextColor;
 			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahTextSize = global::Chordroid.Droid.Resource.Styleable.ProgressWheel_ahTextSize;
+			global::ModernHttpClient.Resource.String.library_name = global::Chordroid.Droid.Resource.String.library_name;
 			global::Xamarin.Forms.Platform.Android.Resource.Animation.abc_fade_in = global::Chordroid.Droid.Resource.Animation.abc_fade_in;
 			global::Xamarin.Forms.Platform.Android.Resource.Animation.abc_fade_out = global::Chordroid.Droid.Resource.Animation.abc_fade_out;
 			global::Xamarin.Forms.Platform.Android.Resource.Animation.abc_grow_fade_in_from_bottom = global::Chordroid.Droid.Resource.Animation.abc_grow_fade_in_from_bottom;

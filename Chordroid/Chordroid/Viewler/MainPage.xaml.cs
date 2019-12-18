@@ -162,7 +162,7 @@ namespace Chordroid
                         SeciliSarki.Satirlar.Add(satir);
                     }
 
-                    Helper.Save(SeciliSarki);
+                    Helper.SaveLocal(SeciliSarki);
 
                     SarkiItem s = new SarkiItem();
                     s.Ad = pResult.Text;

@@ -4,14 +4,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using System.Net.Http;
 using Newtonsoft.Json;
+using ModernHttpClient;
 
 namespace Chordroid.View
 {
@@ -64,11 +61,9 @@ namespace Chordroid.View
                 ac.IsRunning = true;
 
                 lSarkilar.Clear();
-
-                var httpClient = new HttpClient();
-                var response = await httpClient.GetStringAsync("http://10.0.2.2:5000/api/Sarki/Get");
-                var sarkiListesi = JsonConvert.DeserializeObject<List<Sarki>>(response);
-                
+                var httpClient = new HttpClient(new NativeMessageHandler()); //SSL hatasını aşmak için ModernHttpClient kullandım
+                var response = await httpClient.GetStringAsync(Helper.SunucuAdresi + "/api/Sarki/GetAll");
+                var sarkiListesi = JsonConvert.DeserializeObject<List<Sarki>>(response);                
                 foreach (Sarki sar in sarkiListesi)
                 {
                     SarkiItem s = new SarkiItem();
@@ -77,7 +72,6 @@ namespace Chordroid.View
                     s.Link = "";
                     lSarkilar.Add(s);
                 }
-
                 BindingContext = lSarkilar.OrderBy(x => x.Ad);
                 ToolbarItems[0].Text = lSarkilar.Count.ToString() + " SONGS CAN BE DOWNLOADED";
             }
@@ -109,10 +103,13 @@ namespace Chordroid.View
                     }
                     sarkiIdleri = sarkiIdleri.TrimEnd(','); 
 
-                    var httpClient = new HttpClient();
-                    var response = await httpClient.GetStringAsync("http://10.0.2.2:5000/api/Sarki/DownloadSongs/" + sarkiIdleri);
+                    var httpClient = new HttpClient(new NativeMessageHandler());
+                    var response = await httpClient.GetStringAsync(Helper.SunucuAdresi + "/api/Sarki/DownloadSongs/" + sarkiIdleri);
                     var sarkilar = JsonConvert.DeserializeObject<List<Sarki>>(response);
-
+                    foreach(Sarki s in sarkilar)
+                    {
+                        Helper.SaveLocal(s, s.Ad); 
+                    }
                     await DisplayAlert("Download Done", "Selected songs have been downloaded successfully.", "OK");
                     await Navigation.PopAsync();
                 }                

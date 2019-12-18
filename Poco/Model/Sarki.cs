@@ -18,7 +18,7 @@ namespace Poco.Model
             SpotifyAdresi = "";
         }
 
-        public int Id { get; set; }
+        public int Id { get; set; } = 0;
         public string Ad { get; set; }
         public int AkorFontBuyuklugu { get; set; }
         public int SozFontBuyuklugu { get; set; }

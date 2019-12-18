@@ -65,14 +65,14 @@ namespace Chordroid
         private void THigh_Clicked(object sender, EventArgs e)
         {
             PesTiz(false);
-            Helper.Save(SeciliSarki);
+            Helper.SaveLocal(SeciliSarki);
             ListviewRefresh();
         }
 
         private void TLow_Clicked(object sender, EventArgs e)
         {
             PesTiz(true);
-            Helper.Save(SeciliSarki);
+            Helper.SaveLocal(SeciliSarki);
             ListviewRefresh();
         }
 
@@ -92,7 +92,7 @@ namespace Chordroid
         {
             if (ekranaAliniyor) return;
             SeciliSarki.AkorFontBuyuklugu = (int)e.NewValue;
-            Helper.Save(SeciliSarki);
+            Helper.SaveLocal(SeciliSarki);
         }
 
 

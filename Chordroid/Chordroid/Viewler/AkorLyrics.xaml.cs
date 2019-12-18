@@ -29,7 +29,7 @@ namespace Chordroid
         {
             if (ekranaAliniyor) return;
             SeciliSarki.SozFontBuyuklugu = (int)e.NewValue;
-            Helper.Save(SeciliSarki);
+            Helper.SaveLocal(SeciliSarki);
         }
     }
 }

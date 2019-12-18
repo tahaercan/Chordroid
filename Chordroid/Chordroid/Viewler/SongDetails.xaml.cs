@@ -1,10 +1,14 @@
 ﻿using Acr.UserDialogs;
+using ModernHttpClient;
 using Poco.Model;
 using System;
 using System.IO;
 using System.Net;
+using System.Net.Http;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Newtonsoft.Json;
+using System.Text;
 
 namespace Chordroid.View
 {
@@ -30,7 +34,7 @@ namespace Chordroid.View
             if (!string.IsNullOrWhiteSpace(e.NewTextValue))
             {
                 SeciliSarki.SpotifyAdresi = e.NewTextValue;
-                Helper.Save(SeciliSarki);                
+                Helper.SaveLocal(SeciliSarki);                
             }
         }
 
@@ -43,7 +47,7 @@ namespace Chordroid.View
             }
             string old = SeciliSarki.Ad;
             SeciliSarki.Ad = e.NewTextValue;
-            Helper.Save(SeciliSarki, old);
+            Helper.SaveLocal(SeciliSarki, old);
             File.Move(Helper.SarkiAdindanPathBul(old), Helper.SarkiAdindanPathBul(e.NewTextValue));
         }
 
@@ -66,6 +70,10 @@ namespace Chordroid.View
                 //    await DisplayAlert("Upload Done", "'" + SeciliSarki.Ad + "' uploaded successfully.", "OK");
                 //}
 
+                var httpClient = new HttpClient(new NativeMessageHandler());
+                var content = new StringContent(JsonConvert.SerializeObject(SeciliSarki), Encoding.UTF8, "application/json");
+                var result = httpClient.PostAsync(Helper.SunucuAdresi + "/api/Sarki/UploadSong", content).Result;
+                
             }
             catch (Exception ex)
             {

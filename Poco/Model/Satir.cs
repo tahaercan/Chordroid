@@ -13,6 +13,19 @@ namespace Poco.Model
         public string Metin { get; set; } = "";
         public int Sira { get; set; } = 0;
         public bool AkorSatiri { get; set; } = false;
-        public Color Renk { get; set; } = Color.Black;
+        public Color Renk 
+        {
+            get
+            {
+                if(AkorSatiri)
+                {
+                    return Color.Red;
+                }
+                else
+                {
+                    return Color.Black;
+                }
+            }
+        }
     }
 }

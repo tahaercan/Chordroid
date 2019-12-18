@@ -100,7 +100,7 @@ namespace Chordroid
             }
 
             SeciliSarki.Satirlar.Remove(seciliSatir);
-            Helper.Save(SeciliSarki);
+            Helper.SaveLocal(SeciliSarki);
             refreshList();
         }
 
@@ -114,7 +114,7 @@ namespace Chordroid
             Satir s = new Satir();
             s.Sira = maxValue + 1;
             SeciliSarki.Satirlar.Add(s);
-            Helper.Save(SeciliSarki);
+            Helper.SaveLocal(SeciliSarki);
 
             refreshList();
         }
@@ -122,16 +122,16 @@ namespace Chordroid
 
         private void Entry_TextChanged(object sender, TextChangedEventArgs e)
         {
-            Helper.Save(SeciliSarki);
+            Helper.SaveLocal(SeciliSarki);
         }
 
         private void Switch_Toggled(object sender, ToggledEventArgs e)
         {
-            foreach (Satir s in SeciliSarki.Satirlar)
-            {
-                s.Renk = s.AkorSatiri == true ? Color.Red : Color.Black;
-            }
-            Helper.Save(SeciliSarki);
+            //foreach (Satir s in SeciliSarki.Satirlar)
+            //{
+            //    s.Renk = s.AkorSatiri == true ? Color.Red : Color.Black;
+            //}
+            Helper.SaveLocal(SeciliSarki);
         }
 
     }

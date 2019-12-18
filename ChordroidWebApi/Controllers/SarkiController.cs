@@ -26,12 +26,12 @@ namespace ChordroidWebApi.Controllers
 
         // GET: api/Sarki
         [HttpGet]
-        public async Task<IEnumerable<Sarki>> Get()
+        public async Task<IEnumerable<Sarki>> GetAll()
         {
             List<Sarki> l = new List<Sarki>();
-            DataSet ds = await DataSetOku("select Id,Ad from Genel..Sarki with (nolock)", "SarkiListesi"); 
+            DataSet ds = await DataSetOku("select Id,Ad from Genel..Sarki with (nolock)", "SarkiListesi");
             try
-            {                 
+            {
                 foreach (DataRow r in ds.Tables["SarkiListesi"].Rows)
                 {
                     Sarki s = new Sarki();
@@ -43,16 +43,16 @@ namespace ChordroidWebApi.Controllers
             catch (Exception ex)
             {
                 throw (ex);
-            }            
+            }
             return l;
         }
 
-        [HttpGet]
+        [HttpGet("{sarkiIdleri}", Name = "DownloadSongs")]
         public async Task<IEnumerable<Sarki>> DownloadSongs(string sarkiIdleri)
         {
-            List<Sarki> l = new List<Sarki>();            
+            List<Sarki> l = new List<Sarki>();
             try
-            {                
+            {
                 DataSet dsSarki = await DataSetOku("select * from Genel..Sarki with (nolock) where Id in (" + sarkiIdleri + ")", "Sarki");
                 DataSet dsSatir = await DataSetOku("select * from Genel..Satir with (nolock) where SarkiId in (" + sarkiIdleri + ")", "Satir");
                 foreach (DataRow rSarki in dsSarki.Tables["Sarki"].Rows)
@@ -65,15 +65,14 @@ namespace ChordroidWebApi.Controllers
                     s.SozRtf = "";
                     s.SpotifyAdresi = rSarki["SpotifyAdresi"].ToString();
                     s.Satirlar = new ObservableCollection<Satir>();
-                    foreach (DataRow rSatir in dsSarki.Tables["Satir"].Select("SatirId=" + rSarki["Id"].ToString()))
+                    foreach (DataRow rSatir in dsSatir.Tables["Satir"].Select("SarkiId=" + rSarki["Id"].ToString()))
                     {
                         Satir sa = new Satir();
                         sa.SarkiId = s.Id;
                         sa.AkorSatiri = (bool)rSatir["AkorSatiri"];
                         sa.Metin = rSatir["Metin"].ToString();
-                        sa.Renk = sa.AkorSatiri == true ? Color.Red : Color.Black;
-                        sa.Sira = (int)rSatir["Sira"];                        
-                        s.Satirlar.Add(sa);  
+                        sa.Sira = (int)rSatir["Sira"];
+                        s.Satirlar.Add(sa);
                     }
                     l.Add(s);
                 }
@@ -92,22 +91,82 @@ namespace ChordroidWebApi.Controllers
             return "value";
         }
 
-        // POST: api/Sarki
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
 
         // PUT: api/Sarki/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPost("{sarki}", Name = "UploadSong")]
+        public async Task<bool> UploadSong([FromBody] Sarki sarki)
         {
-        }
+            SqlConnection cn = new SqlConnection(ConnectionString);
+            SqlTransaction tr = cn.BeginTransaction(IsolationLevel.ReadUncommitted);
+            try
+            {
+                await cn.OpenAsync();
 
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+                SqlCommand cmdSarki = new SqlCommand();
+                cmdSarki.Transaction = tr;
+                cmdSarki.CommandText = 
+                    "insert into Genel..Sarki with (rowlock) " + Environment.NewLine +
+                    "(Ad,AkorFontBuyuklugu,SozFontBuyuklugu,SozRtf,SpotifyAdresi) " + Environment.NewLine + 
+                    "values " + Environment.NewLine + 
+                    "(@Ad,@AkorFontBuyuklugu,@SozFontBuyuklugu,@SozRtf,@SpotifyAdresi) select scope_identity()";
+                cmdSarki.Parameters.Add("@Id", SqlDbType.NVarChar).Value = sarki.Id;
+                cmdSarki.Parameters.Add("@Ad", SqlDbType.NVarChar).Value = sarki.Ad;
+                cmdSarki.Parameters.Add("@AkorFontBuyuklugu", SqlDbType.Int).Value = sarki.AkorFontBuyuklugu;
+                cmdSarki.Parameters.Add("@SozFontBuyuklugu", SqlDbType.Int).Value = sarki.SozFontBuyuklugu;
+                cmdSarki.Parameters.Add("@SozRtf", SqlDbType.NVarChar).Value = sarki.SozRtf;
+                cmdSarki.Parameters.Add("@SpotifyAdresi", SqlDbType.VarChar).Value = sarki.SpotifyAdresi;
+                
+                if (sarki.Id > 0)
+                {
+                    cmdSarki.CommandText =
+                        "update Genel..Sarki with (rowlock) " + Environment.NewLine +
+                        "set Ad=@Ad,AkorFontBuyuklugu=@AkorFontBuyuklugu,SozFontBuyuklugu=@SozFontBuyuklugu,SozRtf=@SozRtf,SpotifyAdresi=@SpotifyAdresi) " + Environment.NewLine +
+                        "where Id=@Id";
+                    await cmdSarki.ExecuteNonQueryAsync();
+
+                    SqlCommand cmdSatirDelete = new SqlCommand();
+                    cmdSatirDelete.Transaction = tr;
+                    cmdSatirDelete.CommandText = "delete from Genel..Satir with (rowlock) where SarkiId=@SarkiId";
+                    cmdSatirDelete.Parameters.Add("@SarkiId", SqlDbType.NVarChar).Value = sarki.Id;
+                    await cmdSatirDelete.ExecuteNonQueryAsync();
+                }
+                else
+                {
+                    sarki.Id = (int)await cmdSarki.ExecuteScalarAsync();
+                }                
+
+                SqlCommand cmdSatirInsert = new SqlCommand();
+                cmdSatirInsert.Transaction = tr; 
+                cmdSatirInsert.CommandText =
+                    "insert into Genel..Satir with (rowlock) " + Environment.NewLine +
+                    "(SarkiId,Metin,Sira,AkorSatiri) " + Environment.NewLine +
+                    "values " + Environment.NewLine +
+                    "(@SarkiId,@Metin,@Sira,@AkorSatiri)";
+                cmdSatirInsert.Parameters.Add("@SarkiId", SqlDbType.NVarChar).Value = sarki.Id;
+                cmdSatirInsert.Parameters.Add("@Metin", SqlDbType.NVarChar);
+                cmdSatirInsert.Parameters.Add("@Sira", SqlDbType.Int);
+                cmdSatirInsert.Parameters.Add("@AkorSatiri", SqlDbType.Bit);
+                cmdSatirInsert.Parameters.Add("@SozRtf", SqlDbType.NVarChar);
+
+                foreach(Satir s in sarki.Satirlar)
+                {
+                    cmdSatirInsert.Parameters["@Metin"].Value = s.Metin;
+                    cmdSatirInsert.Parameters["@Sira"].Value = s.Sira;
+                    cmdSatirInsert.Parameters["@AkorSatiri"].Value = s.AkorSatiri;
+                    await cmdSatirInsert.ExecuteNonQueryAsync(); 
+                }
+
+                await tr.CommitAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                await cn.CloseAsync(); 
+            }            
         }
 
         private async Task<DataSet> DataSetOku(string komut, string table)
