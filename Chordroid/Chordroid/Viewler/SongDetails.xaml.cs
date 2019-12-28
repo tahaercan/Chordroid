@@ -9,6 +9,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Newtonsoft.Json;
 using System.Text;
+using System.Net.Http.Headers;
 
 namespace Chordroid.View
 {
@@ -70,10 +71,36 @@ namespace Chordroid.View
                 //    await DisplayAlert("Upload Done", "'" + SeciliSarki.Ad + "' uploaded successfully.", "OK");
                 //}
 
-                var httpClient = new HttpClient(new NativeMessageHandler());
-                var content = new StringContent(JsonConvert.SerializeObject(SeciliSarki), Encoding.UTF8, "application/json");
-                var result = httpClient.PostAsync(Helper.SunucuAdresi + "/api/Sarki/UploadSong", content).Result;
+                //var httpClient = new HttpClient(new NativeMessageHandler());
+                var httpClient = new HttpClient();
+
+                //var myContent = JsonConvert.SerializeObject(SeciliSarki);
+                //var buffer = System.Text.Encoding.UTF8.GetBytes(myContent);
+                //var byteContent = new ByteArrayContent(buffer);
+                //byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                //var result = await httpClient.PostAsync(Helper.SunucuAdresi + "/api/Sarki/Upload", byteContent);
+
+
+
+                httpClient = new HttpClient();
+                httpClient.DefaultRequestHeaders.Clear();
+                httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Content-Type", "application/json");
                 
+
+                string message = JsonConvert.SerializeObject(SeciliSarki);                
+                byte[] messageBytes = System.Text.Encoding.UTF8.GetBytes(message);
+                var content = new ByteArrayContent(messageBytes);
+                content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+
+                var response = httpClient.PostAsync(Helper.SunucuAdresi + "/api/Sarki/Upload", content).Result;
+
+
+
+
+                //var content = new StringContent(JsonConvert.SerializeObject(SeciliSarki), Encoding.UTF8, "application/json");
+                //var result = await httpClient.PostAsync(Helper.SunucuAdresi + "/api/Sarki/Post", content);
+                int a = 0;
             }
             catch (Exception ex)
             {

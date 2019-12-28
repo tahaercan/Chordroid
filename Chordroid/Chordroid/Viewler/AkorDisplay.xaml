@@ -17,7 +17,7 @@
                                 <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Padding="15,0,0,0">
                                     <Label x:Name="lblMetin"
                                         Text="{Binding Metin,Mode=TwoWay}"
-                                        TextColor="{Binding Renk}"
+                                        TextColor="{Binding Renk}"                                        
                                         HorizontalOptions="FillAndExpand"
                                         HorizontalTextAlignment="Start"
                                         FontSize="{Binding Source={x:Reference stepper},Path=Value}" >
