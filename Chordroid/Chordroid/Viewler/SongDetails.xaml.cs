@@ -59,29 +59,7 @@ namespace Chordroid.View
                 ac.IsRunning = true;
                 ac.IsVisible = true;
 
-                //FtpClient client = new FtpClient(Helper.FtpUrl);
-                //client.Credentials = new NetworkCredential(Helper.FtpUserName, Helper.FtpPassword);
-                //client.Port = Helper.FtpPort;
-                //await client.ConnectAsync();
-
-                //bool basarili = await client.UploadFileAsync(Helper.SarkiAdindanPathBul(SeciliSarki.Ad), "/songs/" + SeciliSarki.Ad + ".json", FtpExists.Overwrite, verifyOptions:FtpVerify.Retry);
-
-                //if (basarili)
-                //{
-                //    await DisplayAlert("Upload Done", "'" + SeciliSarki.Ad + "' uploaded successfully.", "OK");
-                //}
-
-                //var httpClient = new HttpClient(new NativeMessageHandler());
                 var httpClient = new HttpClient();
-
-                //var myContent = JsonConvert.SerializeObject(SeciliSarki);
-                //var buffer = System.Text.Encoding.UTF8.GetBytes(myContent);
-                //var byteContent = new ByteArrayContent(buffer);
-                //byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-                //var result = await httpClient.PostAsync(Helper.SunucuAdresi + "/api/Sarki/Upload", byteContent);
-
-
-
                 httpClient = new HttpClient();
                 httpClient.DefaultRequestHeaders.Clear();
                 httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
@@ -94,13 +72,11 @@ namespace Chordroid.View
                 content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 
                 var response = httpClient.PostAsync(Helper.SunucuAdresi + "/api/Sarki/Upload", content).Result;
-
-
-
-
-                //var content = new StringContent(JsonConvert.SerializeObject(SeciliSarki), Encoding.UTF8, "application/json");
-                //var result = await httpClient.PostAsync(Helper.SunucuAdresi + "/api/Sarki/Post", content);
-                int a = 0;
+                if (response.StatusCode ==HttpStatusCode.OK )
+                {
+                    await DisplayAlert("Upload Successful", "'" + SeciliSarki.Ad + "' has been uploaded successfully.", "OK");
+                    //yeni id locale kaydedilecek
+                }
             }
             catch (Exception ex)
             {

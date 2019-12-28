@@ -25,6 +25,6 @@ namespace Poco.Model
         public string SozRtf { get; set; }
         public string SpotifyAdresi { get; set; } = "";
 
-        public ObservableCollection<Satir> Satirlar { get; set; }
+        public ICollection<Satir> Satirlar { get; set; }
     }
 }

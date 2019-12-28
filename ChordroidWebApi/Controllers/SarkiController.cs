@@ -99,13 +99,12 @@ namespace ChordroidWebApi.Controllers
         public async Task<bool> Upload(Sarki sarki)
         {
             SqlConnection cn = new SqlConnection(ConnectionString);
-            SqlTransaction tr = cn.BeginTransaction(IsolationLevel.ReadUncommitted);
+            
             try
             {
                 await cn.OpenAsync();
-
-                SqlCommand cmdSarki = new SqlCommand();
-                cmdSarki.Transaction = tr;
+                SqlTransaction tr = cn.BeginTransaction(IsolationLevel.ReadUncommitted);
+                SqlCommand cmdSarki = new SqlCommand("", cn, tr);                                
                 cmdSarki.CommandText = 
                     "insert into Genel..Sarki with (rowlock) " + Environment.NewLine +
                     "(Ad,AkorFontBuyuklugu,SozFontBuyuklugu,SozRtf,SpotifyAdresi) " + Environment.NewLine + 
@@ -126,19 +125,18 @@ namespace ChordroidWebApi.Controllers
                         "where Id=@Id";
                     await cmdSarki.ExecuteNonQueryAsync();
 
-                    SqlCommand cmdSatirDelete = new SqlCommand();
-                    cmdSatirDelete.Transaction = tr;
+                    SqlCommand cmdSatirDelete = new SqlCommand("", cn, tr);                    
                     cmdSatirDelete.CommandText = "delete from Genel..Satir with (rowlock) where SarkiId=@SarkiId";
                     cmdSatirDelete.Parameters.Add("@SarkiId", SqlDbType.NVarChar).Value = sarki.Id;
                     await cmdSatirDelete.ExecuteNonQueryAsync();
                 }
                 else
                 {
-                    sarki.Id = (int)await cmdSarki.ExecuteScalarAsync();
+                    object id = await cmdSarki.ExecuteScalarAsync();
+                    sarki.Id = (int)(decimal)id;
                 }                
 
-                SqlCommand cmdSatirInsert = new SqlCommand();
-                cmdSatirInsert.Transaction = tr; 
+                SqlCommand cmdSatirInsert = new SqlCommand("", cn, tr);
                 cmdSatirInsert.CommandText =
                     "insert into Genel..Satir with (rowlock) " + Environment.NewLine +
                     "(SarkiId,Metin,Sira,AkorSatiri) " + Environment.NewLine +
@@ -147,14 +145,13 @@ namespace ChordroidWebApi.Controllers
                 cmdSatirInsert.Parameters.Add("@SarkiId", SqlDbType.NVarChar).Value = sarki.Id;
                 cmdSatirInsert.Parameters.Add("@Metin", SqlDbType.NVarChar);
                 cmdSatirInsert.Parameters.Add("@Sira", SqlDbType.Int);
-                cmdSatirInsert.Parameters.Add("@AkorSatiri", SqlDbType.Bit);
-                cmdSatirInsert.Parameters.Add("@SozRtf", SqlDbType.NVarChar);
+                cmdSatirInsert.Parameters.Add("@AkorSatiri", SqlDbType.Bit);                
 
                 foreach(Satir s in sarki.Satirlar)
                 {
                     cmdSatirInsert.Parameters["@Metin"].Value = s.Metin;
                     cmdSatirInsert.Parameters["@Sira"].Value = s.Sira;
-                    cmdSatirInsert.Parameters["@AkorSatiri"].Value = s.AkorSatiri;
+                    cmdSatirInsert.Parameters["@AkorSatiri"].Value = s.AkorSatiri;                    
                     await cmdSatirInsert.ExecuteNonQueryAsync(); 
                 }
 
