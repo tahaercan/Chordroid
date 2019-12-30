@@ -34,24 +34,20 @@ namespace Chordroid
                     //Directory.Delete(Helper.KlasorAdi, true);
                 }
 
-                //if (System.IO.File.Exists(Helper.FtpSettingsPath))
-                //{
-                //    string temp = System.IO.File.ReadAllText(Helper.FtpSettingsPath);
-                //    if (temp != "")
-                //    {
-                //        string[] ayarlar = temp.Split(Environment.NewLine);
-                //        Helper.FtpUrl = ayarlar[0];
-                //        Helper.FtpPort = int.Parse(ayarlar[1]);
-                //        Helper.FtpUserName = ayarlar[2];
-                //        Helper.FtpPassword = ayarlar[3];
-                //    }
-                //}
-                //else
-                //{ 
-                //    System.IO.FileStream fs = File.Create(Helper.FtpSettingsPath);
-                //    fs.Close();
-                //    fs.Dispose();
-                //}
+                if (System.IO.File.Exists(Helper.SunucuDosyasiPath))
+                {
+                    string temp = System.IO.File.ReadAllText(Helper.SunucuDosyasiPath);
+                    if (temp != "")
+                    {
+                        Helper.SunucuAdresi = temp;                        
+                    }
+                }
+                else
+                {
+                    System.IO.FileStream fs = File.Create(Helper.SunucuDosyasiPath);
+                    fs.Close();
+                    fs.Dispose();
+                }
 
                 ToolbarItem tSongCount = new ToolbarItem();
                 tSongCount.Text = "";
@@ -77,7 +73,7 @@ namespace Chordroid
                 ToolbarItems.Add(tSongList);
 
                 ToolbarItem tFtpSettings = new ToolbarItem();
-                tFtpSettings.Text = "FTP SETTINGS";
+                tFtpSettings.Text = "SERVER SETTINGS";
                 tFtpSettings.Clicked += TFtpSettings_Clicked;
                 tFtpSettings.Order = ToolbarItemOrder.Secondary;
                 ToolbarItems.Add(tFtpSettings);
@@ -273,7 +269,6 @@ namespace Chordroid
                 SeciliSarki = null;
             }            
         }
-
 
         private async void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
         {

@@ -19,13 +19,7 @@
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
                 <Label Grid.Column="0" Grid.Row="0" Text="Server" VerticalTextAlignment="Center"></Label>
-                <Entry x:Name="EntServer" Grid.Column="1" Grid.Row="0" FontSize="Small"></Entry>
-                <Label Grid.Column="0" Grid.Row="1" Text="Port" VerticalTextAlignment="Center"></Label>
-                <Entry x:Name="EntPort"  Grid.Column="1" Grid.Row="1" FontSize="Small"></Entry>
-                <Label Grid.Column="0" Grid.Row="2" Text="Username" VerticalTextAlignment="Center"></Label>
-                <Entry x:Name="EntUsername"  Grid.Column="1" Grid.Row="2" FontSize="Small"></Entry>
-                <Label Grid.Column="0" Grid.Row="3" Text="Password" VerticalTextAlignment="Center"></Label>
-                <Entry x:Name="EntPassword"  Grid.Column="1" Grid.Row="3" FontSize="Small"></Entry>
+                <Entry x:Name="EntServer" Grid.Column="1" Grid.Row="0" FontSize="Small"></Entry>                
             </Grid>
             <ActivityIndicator x:Name="ac" IsVisible="False" IsRunning="False" ></ActivityIndicator>
             <Button x:Name="btnSave" Text="Save" VerticalOptions="End" BackgroundColor="CadetBlue" Clicked="btnSave_Clicked"></Button>

@@ -87,16 +87,9 @@ namespace ChordroidWebApi.Controllers
             return "value";
         }
 
-        [HttpPost]
-        public async Task<bool> PostTest(string s)
-        {
-            return true;
-        }
-
-
 
         [HttpPost]
-        public async Task<bool> Upload(Sarki sarki)
+        public async Task<int> Upload(Sarki sarki)
         {
             SqlConnection cn = new SqlConnection(ConnectionString);
             
@@ -156,7 +149,7 @@ namespace ChordroidWebApi.Controllers
                 }
 
                 await tr.CommitAsync();
-                return true;
+                return sarki.Id;
             }
             catch (Exception ex)
             {

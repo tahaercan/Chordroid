@@ -63,8 +63,7 @@ namespace Chordroid.View
                 httpClient = new HttpClient();
                 httpClient.DefaultRequestHeaders.Clear();
                 httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-                httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Content-Type", "application/json");
-                
+                httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Content-Type", "application/json");                
 
                 string message = JsonConvert.SerializeObject(SeciliSarki);                
                 byte[] messageBytes = System.Text.Encoding.UTF8.GetBytes(message);
@@ -72,10 +71,15 @@ namespace Chordroid.View
                 content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 
                 var response = httpClient.PostAsync(Helper.SunucuAdresi + "/api/Sarki/Upload", content).Result;
-                if (response.StatusCode ==HttpStatusCode.OK )
+                if (response.StatusCode == HttpStatusCode.OK )
                 {
                     await DisplayAlert("Upload Successful", "'" + SeciliSarki.Ad + "' has been uploaded successfully.", "OK");
-                    //yeni id locale kaydedilecek
+                    if (SeciliSarki.Id == 0)
+                    {
+                        string s = await response.Content.ReadAsStringAsync();
+                        SeciliSarki.Id = int.Parse(s);
+                        Helper.SaveLocal(SeciliSarki);
+                    }                    
                 }
             }
             catch (Exception ex)
@@ -114,7 +118,8 @@ namespace Chordroid.View
                 });
                 if (result)
                 {
-                    File.Delete(Helper.SarkiAdindanPathBul(SeciliSarki.Ad));                    
+                    File.Delete(Helper.SarkiAdindanPathBul(SeciliSarki.Ad));
+                    await DisplayAlert("Deleted", "'" + SeciliSarki.Ad + "' deleted locally.", "OK");
                 }
             }
             catch (Exception ex)
