@@ -138,7 +138,7 @@ namespace Chordroid
             }
             if (peslestir)
             {
-                switch (nota.ToUpper())
+                switch (nota)
                 {
                     case "C":
                         yeniNota = "B";
@@ -179,6 +179,7 @@ namespace Chordroid
                         yeniNota = "A#";
                         break;
                     default:
+                        yeniNota = nota;
                         break;
                 }
             }
@@ -225,6 +226,7 @@ namespace Chordroid
                         yeniNota = "C";
                         break;
                     default:
+                        yeniNota = nota;
                         break;
                 }
             }
