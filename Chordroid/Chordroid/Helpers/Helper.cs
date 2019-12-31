@@ -22,7 +22,7 @@ namespace Chordroid
                 else
                 {
                     System.IO.File.WriteAllText(SarkiAdindanPathBul(sarkiadi), json, Encoding.UTF8);
-                }     
+                }  
         }
 
         public static string SarkiAdindanPathBul(string sarkiAdi)

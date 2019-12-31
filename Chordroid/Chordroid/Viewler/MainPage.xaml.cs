@@ -39,7 +39,7 @@ namespace Chordroid
                     string temp = System.IO.File.ReadAllText(Helper.SunucuDosyasiPath);
                     if (temp != "")
                     {
-                        Helper.SunucuAdresi = temp;                        
+                        Helper.SunucuAdresi = temp.TrimEnd('/');
                     }
                 }
                 else

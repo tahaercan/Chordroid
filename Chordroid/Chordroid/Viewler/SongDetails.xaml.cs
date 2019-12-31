@@ -8,8 +8,6 @@ using System.Net.Http;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Newtonsoft.Json;
-using System.Text;
-using System.Net.Http.Headers;
 
 namespace Chordroid.View
 {
@@ -59,8 +57,7 @@ namespace Chordroid.View
                 ac.IsRunning = true;
                 ac.IsVisible = true;
 
-                var httpClient = new HttpClient();
-                httpClient = new HttpClient();
+                var httpClient = new HttpClient(new NativeMessageHandler());                
                 httpClient.DefaultRequestHeaders.Clear();
                 httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
                 httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Content-Type", "application/json");                
@@ -80,6 +77,10 @@ namespace Chordroid.View
                         SeciliSarki.Id = int.Parse(s);
                         Helper.SaveLocal(SeciliSarki);
                     }                    
+                }
+                else
+                {
+                    await DisplayAlert("Error", response.StatusCode.ToString() , "OK");
                 }
             }
             catch (Exception ex)

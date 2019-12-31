@@ -114,7 +114,7 @@ namespace ChordroidWebApi.Controllers
                 {
                     cmdSarki.CommandText =
                         "update Genel..Sarki with (rowlock) " + Environment.NewLine +
-                        "set Ad=@Ad,AkorFontBuyuklugu=@AkorFontBuyuklugu,SozFontBuyuklugu=@SozFontBuyuklugu,SozRtf=@SozRtf,SpotifyAdresi=@SpotifyAdresi) " + Environment.NewLine +
+                        "set Ad=@Ad,AkorFontBuyuklugu=@AkorFontBuyuklugu,SozFontBuyuklugu=@SozFontBuyuklugu,SozRtf=@SozRtf,SpotifyAdresi=@SpotifyAdresi " + Environment.NewLine +
                         "where Id=@Id";
                     await cmdSarki.ExecuteNonQueryAsync();
 
